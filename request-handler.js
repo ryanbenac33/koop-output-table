@@ -28,7 +28,7 @@ function requestHandler (req, res) {
     const records = filteredGeojson.features.map(function (feature) {
       return flatten(feature.properties)
     })
-
+  
     //https://stackoverflow.com/questions/51188542/how-to-build-a-dynamic-html-table-from-json-data-using-node-js
     const row = html => `<tr>\n${html}</tr>\n`,
       heading = object => row(Object.keys(object).reduce((html, heading) => (html + `<th>${heading}</th>`), '')),
@@ -85,6 +85,7 @@ function requestHandler (req, res) {
     // input html
     const search = '<input id="myInput" type="text" onkeyup="myFunction()" placeholder="Search for any value in table...">'
 
+    //https://www.geeksforgeeks.org/how-to-perform-a-real-time-search-and-filter-on-a-html-table/
     // script html
     const script = `<script>
     function myFunction() {
