@@ -41,83 +41,86 @@ function requestHandler (req, res) {
       return `<table id="myTable"><tbody>${header}${dataList.reduce((html, object) => (html + datarow(object)), '')}</tbody></table>`
     }
 
-    // specify table borders (using W3 documentation)
-    const head = '<head><script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script></head>'
+    function makeHTML(htmlTable) {
+      // specify table borders (using W3 documentation)
+      const head = '<head><script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script></head>'
 
-    // css specification
-    const css = `<style> table, th, td {
-    border: 1px solid black; 
-    border-collapse: collapse;
-    } 
-
-    #myInput {
-      background-image: url('https://img.icons8.com/search'); 
-      background-position: 8px 10px; 
-      background-repeat: no-repeat;
-      background-size: 25px;
-      width: 100%;
-      font-size: 16px; 
-      padding: 12px 20px 12px 40px;
-      border: 1px solid #ddd;
-      margin-bottom: 12px;
-    }
-
-    #myTable {
+      // css specification
+      const css = `<style> table, th, td {
+      border: 1px solid black; 
       border-collapse: collapse;
-      width: 100%; 
-      border: 1px solid #ddd; 
-      font-size: 18px; 
+      } 
+
+      #myInput {
+        background-image: url('https://img.icons8.com/search'); 
+        background-position: 8px 10px; 
+        background-repeat: no-repeat;
+        background-size: 25px;
+        width: 100%;
+        font-size: 16px; 
+        padding: 12px 20px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+      }
+
+      #myTable {
+        border-collapse: collapse;
+        width: 100%; 
+        border: 1px solid #ddd; 
+        font-size: 18px; 
+      }
+
+      #myTable th, #myTable td {
+        text-align: left; 
+        padding: 12px; 
+      } 
+
+      #myTable tr {
+        border-bottom: 1px solid #ddd;
+      } 
+
+      #myTable tr.header, #myTable tr:hover {
+        background-color: #f1f1f1;
+      } </style>`
+
+      // input html
+      const search = '<input id="myInput" type="text" onkeyup="myFunction()" placeholder="Search for any value in table...">'
+
+      //https://www.geeksforgeeks.org/how-to-perform-a-real-time-search-and-filter-on-a-html-table/
+      // script html
+      const script = `<script>
+      function myFunction() {
+          var input, filter, table, tr, td, i, ii;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("myTable");
+          tr = table.querySelectorAll("tbody tr:not(.header)");
+          for (i = 0; i < tr.length; i++) {
+              var tds = tr[i].getElementsByTagName("td");
+              var found = false;
+              for (ii = 0; ii < tds.length && !found; ii++) {
+                  if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+                      found = true;
+                      break;
+                  }
+              }
+              tr[i].style.display = found?"":"none";
+          }
+      }
+      </script>`
+
+      return '<html>' + head + '<body><h2>Koop-Output-Table</h2>' + css + search + '<br><br>' + tabled + script + '</body>' + '</html>'
+
     }
-
-    #myTable th, #myTable td {
-      text-align: left; 
-      padding: 12px; 
-    } 
     
-    #myTable tr {
-      border-bottom: 1px solid #ddd;
-    } 
-    
-    #myTable tr.header, #myTable tr:hover {
-      background-color: #f1f1f1;
-    } </style>`
-
-    // input html
-    const search = '<input id="myInput" type="text" onkeyup="myFunction()" placeholder="Search for any value in table...">'
-
-    //https://www.geeksforgeeks.org/how-to-perform-a-real-time-search-and-filter-on-a-html-table/
-    // script html
-    const script = `<script>
-    function myFunction() {
-        var input, filter, table, tr, td, i, ii;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("myTable");
-        tr = table.querySelectorAll("tbody tr:not(.header)");
-        for (i = 0; i < tr.length; i++) {
-            var tds = tr[i].getElementsByTagName("td");
-            var found = false;
-            for (ii = 0; ii < tds.length && !found; ii++) {
-                if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
-                    found = true;
-                    break;
-                }
-            }
-            tr[i].style.display = found?"":"none";
-        }
-    }
-    </script>`
-    
-
     //create table from JSON
     const tabled = htmlTable(records)
 
-    // append css
-    const styled = '<html>' + head + '<body><h2>Koop-Output-Table</h2>' + css + search + '<br><br>' + tabled + script + '</body>' + '</html>'
-
     // send it for output
-    res.status(200).send(styled)
+    res.status(200).send(makeHTML(tabled))
   })
 }
+
+
 
 module.exports = requestHandler
