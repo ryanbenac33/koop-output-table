@@ -53,7 +53,6 @@ function requestHandler (req, res) {
       border: 1px solid black; 
       border-collapse: collapse;
       } 
-
       #myInput {
         background-image: url('https://img.icons8.com/search'); 
         background-position: 8px 10px; 
@@ -84,7 +83,15 @@ function requestHandler (req, res) {
 
       #myTable tr.header, #myTable tr:hover {
         background-color: #f1f1f1;
-      } </style>`
+      } 
+      
+      tr:nth-child(2n) {
+        background-color:silver;
+      }
+
+      html {background-color: mintcream}
+
+    </style>`
 
       // input html
       const search = '<input id="myInput" type="text" onkeyup="myFunction()" placeholder="Search for any value in table...">'
