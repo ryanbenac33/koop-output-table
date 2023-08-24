@@ -9,7 +9,7 @@ Implemented routes:
 - [x] `/table`
 
 ## Example Output View
-![Example Output](igures/exampleTableOutputNew.png)
+![Example Output](figures/exampleTableOutputNew.png)
 
 ## Installation
 This output plugin is not yet deployed through npm. Clone this repository to your working folder and ensure it is registered (as shown below).
