@@ -2,6 +2,9 @@
   //Author: Ryan Benac
   //USACE MVR ECG
   //Last Updated: 8/10/2023
+
+  //The initial portion of this code is copied from largely from https://github.com/koopjs/koop-output-flat
+  //This repo then takes the flattended JSON and formats as an HTML table
 */
 
 const winnow = require('@koopjs/winnow')
