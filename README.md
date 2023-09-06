@@ -19,7 +19,8 @@ This provider can be registered in a Koop app.
 
 ```javascript
 const Koop = require("koop");
+const koop = new Koop();
 const tableOutput = require("./koop-output-table");
 
-Koop.register(tableOutput);
+koop.register(tableOutput);
 ```
